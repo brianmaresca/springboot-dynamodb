@@ -3,7 +3,6 @@ package example.springbootdynamodb.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import example.springbootdynamodb.Application;
-import example.springbootdynamodb.properties.DynamoTableProperties;
 import example.springbootdynamodb.repository.DynamoDbRepository;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -42,14 +41,10 @@ public abstract class AbstractBaseTest {
   public DynamoDbClient dynamoDbClient;
   @LocalServerPort
   protected int serverPort;
-  @Autowired
-  private DynamoTableProperties dynamoTableProperties;
+
   @Autowired
   private ApplicationContext applicationContext;
 
-  //  @Autowired
-//  private List<IDynamoDbRepository<? extends DynamoDbRepository>> allTables;
-//
   @DynamicPropertySource
   public static void configureDynamoDbLocalServer(DynamicPropertyRegistry registry) {
     registry.add("dynamodblocal.server.port", () -> dynamoDbLocalPort);
