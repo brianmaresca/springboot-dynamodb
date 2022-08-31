@@ -43,7 +43,8 @@ public class BooksController {
   }
 
   @GetMapping
-  public ResponseEntity<BooksResponse> getBooks(@RequestParam(name = "startKey", required = false) String startKey) {
+  public ResponseEntity<BooksResponse> getBooks(
+      @RequestParam(name = "startKey", required = false) String startKey) {
 
     return ResponseEntity.ok(Optional.ofNullable(startKey)
         .map(bookService::getBooks)

@@ -23,12 +23,12 @@ import software.amazon.awssdk.services.dynamodb.model.ResourceInUseException;
 
 @Slf4j
 public abstract class DynamoDbRepository<T> implements IDynamoDbRepository<T> {
-  private final Class<T> clazz;
-  private DynamoDbTable<T> table;
-  private String partitionKey;
 
+  private final Class<T> clazz;
   @Getter
   private final Long scanLimit = 5L;
+  private DynamoDbTable<T> table;
+  private String partitionKey;
 
   public DynamoDbRepository() {
     clazz =
@@ -123,11 +123,11 @@ public abstract class DynamoDbRepository<T> implements IDynamoDbRepository<T> {
   @Override
   public PageIterable<T> scan() {
     return table.scan(ScanEnhancedRequest.builder()
-            .limit(5).build());
+        .limit(5).build());
   }
 
   public Long getEstimatedCount() {
-   return this.table.describeTable().table().itemCount();
+    return this.table.describeTable().table().itemCount();
   }
 
 }

@@ -39,7 +39,7 @@ public class BookService {
   public BooksResponse getBooks() {
     Long total = bookRepository.getEstimatedCount();
     Long totalPages = total / bookRepository.getScanLimit();
-   return bookRepository.scan().stream().limit(5).findFirst().stream().collect(Collectors.toList())
+    return bookRepository.scan().stream().limit(5).findFirst().stream().collect(Collectors.toList())
         .stream()
         .findFirst()
         .map(i -> BooksResponse.builder()
@@ -47,18 +47,21 @@ public class BookService {
             .page(Page.builder()
                 .size(i.items().size())
                 .totalElements(total)
-                .lastEvaluatedKey(i.lastEvaluatedKey().values().stream().findAny().map(AttributeValue::s).orElse(null))
+                .lastEvaluatedKey(
+                    i.lastEvaluatedKey().values().stream().findAny().map(AttributeValue::s)
+                        .orElse(null))
                 .totalPages(totalPages.intValue())
                 .build())
             .build())
-       .orElse(BooksResponse.builder().build());
+        .orElse(BooksResponse.builder().build());
   }
 
 
   public BooksResponse getBooks(String lastEvaluatedKey) {
     Long total = bookRepository.getEstimatedCount();
     Long totalPages = total / bookRepository.getScanLimit();
-    return bookRepository.scan(lastEvaluatedKey).stream().limit(5).findFirst().stream().collect(Collectors.toList())
+    return bookRepository.scan(lastEvaluatedKey).stream().limit(5).findFirst().stream()
+        .collect(Collectors.toList())
         .stream()
         .findFirst()
         .map(i -> BooksResponse.builder()

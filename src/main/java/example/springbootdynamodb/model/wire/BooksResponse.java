@@ -22,6 +22,7 @@ public class BooksResponse {
   @Data
   @Jacksonized
   public static class Page {
+
     @Builder.Default
     private Integer size = 0;
     @Builder.Default

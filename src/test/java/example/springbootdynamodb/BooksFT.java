@@ -9,10 +9,8 @@ import example.springbootdynamodb.model.wire.BookResponse;
 import example.springbootdynamodb.model.wire.BooksResponse;
 import example.springbootdynamodb.model.wire.CreateBookRequest;
 import example.springbootdynamodb.repository.BookRepository;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
@@ -20,14 +18,13 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import software.amazon.awssdk.enhanced.dynamodb.model.Page;
-import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 
 @Slf4j
 public class BooksFT extends AbstractBaseTest {
 
   @Autowired
   BookRepository bookRepository;
+
   @Test
   public void createAndGetBookFT() {
     CreateBookRequest createBookRequest = CreateBookRequest.builder()
@@ -102,12 +99,13 @@ public class BooksFT extends AbstractBaseTest {
     while (booksResponse.getPage().getLastEvaluatedKey() != null) {
       booksResponse = given()
           .when()
-          .get("/books?startKey=" + booksResponse.getPage().getLastEvaluatedKey() )
+          .get("/books?startKey=" + booksResponse.getPage().getLastEvaluatedKey())
           .then()
           .statusCode(HttpStatus.SC_OK)
           .extract().as(BooksResponse.class);
 
-      booksResponse.getBooks().parallelStream().forEach(book -> Assertions.assertFalse(books.contains(book)));
+      booksResponse.getBooks().parallelStream()
+          .forEach(book -> Assertions.assertFalse(books.contains(book)));
       books.addAll(booksResponse.getBooks());
     }
 
