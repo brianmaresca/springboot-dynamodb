@@ -1,0 +1,10 @@
+target/
+.idea
+*.iws
+*.iml
+*.ipr
+.DS_Store
+.DS_Store?
+._*
+native-libs
+*.db

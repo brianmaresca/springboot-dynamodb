@@ -1,0 +1,18 @@
+Configuration:
+  status: fatal
+  appenders:
+    Console:
+      name: Console
+      PatternLayout:
+        Pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p (%t) [%c{1}] [%X{X-Request-Id}] %m %n"
+  Loggers:
+    logger:
+      - name: example
+        level: debug
+        additivity: false
+        AppenderRef:
+          - ref: Console
+    Root:
+      level: warn
+      AppenderRef:
+        ref: Console
